@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #fbbf24; /* Amber-400 (Contrast 8.26:1 with #111827) */
+  --ink: #111827; /* Slate-900 (Soft near-black text) */
+  --background: #faf9f6; /* Warm cream background */
+  
+  --upvote: #10b981; /* Emerald green */
+  --downvote: #f472b6; /* Muted cool rose/pink (differentiated from danger red) */
+  --danger: #dc2626; /* Crimson red (exclusively for report/delete) */
+  
+  --radius-card: 24px;
+  --radius-btn: 16px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-outfit), sans-serif;
+  --color-primary: var(--primary);
+  --color-ink: var(--ink);
+  --color-bg-cream: var(--background);
+  --color-upvote: var(--upvote);
+  --color-downvote: var(--downvote);
+  --color-danger: var(--danger);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --primary: #f59e0b; /* Amber-500 for better visibility in dark mode */
+    --ink: #f4f4f5; /* Zinc-100 (Soft near-white text) */
+    --background: #181816; /* Warm slate charcoal background (prevents cold sterility) */
+    --upvote: #34d399; /* Slightly brighter emerald */
+    --downvote: #f472b6;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  font-family: var(--font-outfit), sans-serif;
+}
+
+/* Native App Feel Custom Styles */
+html, body {
+  overscroll-behavior-y: contain; /* Prevent browser rubber banding/pull-to-refresh */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none; /* Disables user selection on main text */
+}
+
+/* Permit text selection only inside inputs, textareas, and post paragraphs */
+input, textarea, p, span {
+  user-select: text;
+}
+
+/* Notch & Home Indicator Adaptations */
+header {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 0.875rem) !important;
+}
+
+.pb-safe {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem) !important;
+}
+
+/* Slide in animations for banners */
+@keyframes slideIn {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
