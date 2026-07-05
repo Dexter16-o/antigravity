@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Flame, Clock, RefreshCw, AlertCircle, ShieldAlert, MessageSquare, Sparkles } from 'lucide-react';
+import { Flame, Clock, RefreshCw, AlertCircle, ShieldAlert, MessageSquare, Sparkles, LogOut } from 'lucide-react';
 import { getPosts, getUserVotes, subscribeToUpdates, getUserKarma, isMockMode, Post } from '@/lib/supabase';
 import { getOrCreateSessionId } from '@/lib/utils';
 import PostComposer from '@/components/PostComposer';
 import PostCard from '@/components/PostCard';
 import ThemeToggle from '@/components/ThemeToggle';
+import LoginScreen from '@/components/LoginScreen';
 import Link from 'next/link';
 
 export default function Home() {
@@ -19,6 +20,31 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [userName, setUserName] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Load user name from localStorage
+  useEffect(() => {
+    const storedName = localStorage.getItem('userName');
+    if (storedName) {
+      setUserName(storedName);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  // Handle login
+  const handleLogin = (name: string) => {
+    localStorage.setItem('userName', name);
+    setUserName(name);
+    setIsLoggedIn(true);
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('userName');
+    setUserName(null);
+    setIsLoggedIn(false);
+  };
 
   // 1. Initialize user session ID client-side
   useEffect(() => {
@@ -67,6 +93,11 @@ export default function Home() {
     post.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Show login screen if not logged in
+  if (!isLoggedIn) {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
+
   return (
     <main className="min-h-screen bg-blue-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
       {/* Premium Top Navigation Bar */}
@@ -79,7 +110,7 @@ export default function Home() {
                 CampusYak
               </h1>
               <p className="text-[10px] text-blue-400 dark:text-slate-500 font-semibold tracking-widest uppercase">
-                College Community Feed
+                {userName ? `Hi, ${userName}!` : 'College Community Feed'}
               </p>
             </div>
           </div>
@@ -110,6 +141,15 @@ export default function Home() {
             >
               <ShieldAlert className="w-5 h-5" />
             </Link>
+
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              className="p-2.5 rounded-xl bg-red-100 hover:bg-red-200 dark:bg-red-950/30 dark:hover:bg-red-900/50 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors"
+              title="Logout"
+            >
+              <LogOut className="w-5 h-5" />
+            </button>
             
             <ThemeToggle />
           </div>
