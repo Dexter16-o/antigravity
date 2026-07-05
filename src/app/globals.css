@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #fbbf24; /* Amber-400 (Contrast 8.26:1 with #111827) */
-  --ink: #111827; /* Slate-900 (Soft near-black text) */
-  --background: #faf9f6; /* Warm cream background */
+  --primary: #3b82f6; /* Blue-500 (Modern bright blue) */
+  --ink: #0f172a; /* Slate-900 (Deep dark for text) */
+  --background: #f0f4f8; /* Light blue-gray background */
   
   --upvote: #10b981; /* Emerald green */
   --downvote: #f472b6; /* Muted cool rose/pink (differentiated from danger red) */
@@ -25,9 +25,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary: #f59e0b; /* Amber-500 for better visibility in dark mode */
-    --ink: #f4f4f5; /* Zinc-100 (Soft near-white text) */
-    --background: #181816; /* Warm slate charcoal background (prevents cold sterility) */
+    --primary: #60a5fa; /* Blue-400 for better visibility in dark mode */
+    --ink: #f0f4f8; /* Light blue-gray text */
+    --background: #0f172a; /* Deep navy-black background */
     --upvote: #34d399; /* Slightly brighter emerald */
     --downvote: #f472b6;
   }
